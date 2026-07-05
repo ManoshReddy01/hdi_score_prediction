@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}History — HDI Insight{% endblock %}
+
+{% block content %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <h4>About this view</h4>
+    <p style="font-size:13px; opacity:0.85; line-height:1.6;">
+      Every row here is one HDI_INPUT_DATA + HDI_PREDICTION pair, scoped
+      to your account — the same 1:1 relationship shown in the schema.
+    </p>
+  </aside>
+
+  <div class="content">
+    <div class="page-head">
+      <div>
+        <h1>Prediction history</h1>
+        <p>{{ rows|length }} prediction(s) on file for your account.</p>
+      </div>
+      <a class="btn btn-primary" href="{{ url_for('predict') }}">New prediction</a>
+    </div>
+
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Country</th><th>Life exp.</th><th>Mean yrs</th><th>Exp. yrs</th><th>GNI</th>
+            <th>Score</th><th>Category</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for pred, input_row, country in rows %}
+            <tr>
+              <td>{{ country.country_name }}</td>
+              <td class="mono">{{ input_row.life_expectancy }}</td>
+              <td class="mono">{{ input_row.mean_years_schooling }}</td>
+              <td class="mono">{{ input_row.expected_years_schooling }}</td>
+              <td class="mono">${{ "{:,.0f}".format(input_row.gni_per_capita) }}</td>
+              <td class="mono">{{ "%.3f"|format(pred.predicted_hdi_score) }}</td>
+              <td><span class="badge tier-{{ pred.hdi_category|lower|replace(' ', '-') }}">{{ pred.hdi_category }}</span></td>
+              <td><a class="btn btn-ghost" href="{{ url_for('result', prediction_id=pred.prediction_id) }}">View</a></td>
+            </tr>
+          {% else %}
+            <tr><td colspan="8">No predictions yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

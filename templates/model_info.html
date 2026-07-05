@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Model — HDI Insight{% endblock %}
+
+{% block content %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <h4>Why show this page</h4>
+    <p style="font-size:13px; opacity:0.85; line-height:1.6;">
+      Every number below is read straight from the ML_MODEL and DATASET
+      rows created at startup (see app.py:bootstrap) — nothing here is
+      hard-coded, so retraining the model updates this page automatically.
+    </p>
+  </aside>
+
+  <div class="content">
+    <div class="page-head">
+      <div><h1>Model &amp; dataset</h1><p>Full lineage for every prediction made in this app.</p></div>
+    </div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3 style="font-size:14px; text-transform:uppercase; letter-spacing:0.05em; color:var(--slate-soft);">Model</h3>
+        <p style="font-family:var(--font-display); font-size:20px; color:var(--navy); margin:6px 0;">{{ model.model_name }}</p>
+        <p class="mono" style="font-size:13px;">{{ model.algorithm_used }}</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:14px; text-transform:uppercase; letter-spacing:0.05em; color:var(--slate-soft);">Tier accuracy</h3>
+        <p style="font-family:var(--font-display); font-size:28px; color:var(--teal);">{{ "%.1f"|format((model.accuracy_score or 0) * 100) }}%</p>
+        <p style="font-size:12.5px; color:var(--slate-soft);">Category agreement on the held-out test split</p>
+      </div>
+      <div class="card">
+        <h3 style="font-size:14px; text-transform:uppercase; letter-spacing:0.05em; color:var(--slate-soft);">R&sup2; score</h3>
+        <p style="font-family:var(--font-display); font-size:28px; color:var(--amber);">{{ "%.3f"|format(model.r2_score or 0) }}</p>
+        <p style="font-size:12.5px; color:var(--slate-soft);">Regression fit on the raw predicted_hdi_score</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:14px;">Training dataset</h3>
+      <table>
+        <tr><td>Dataset name</td><td>{{ dataset.dataset_name if dataset }}</td></tr>
+        <tr><td>Source</td><td>{{ dataset.source if dataset }}</td></tr>
+        <tr><td>Rows</td><td class="mono">{{ dataset.total_rows if dataset }}</td></tr>
+        <tr><td>Columns</td><td class="mono">{{ dataset.total_columns if dataset }}</td></tr>
+        <tr><td>Uploaded</td><td>{{ dataset.uploaded_at.strftime("%b %d, %Y") if dataset }}</td></tr>
+        <tr><td>Model file</td><td class="mono">{{ model.model_file_path }}</td></tr>
+        <tr><td>Trained at</td><td>{{ model.trained_at.strftime("%b %d, %Y %H:%M") if model }}</td></tr>
+        <tr><td>Total predictions served</td><td class="mono">{{ total_predictions }}</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
