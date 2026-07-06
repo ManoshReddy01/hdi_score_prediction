@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Create account — HDI Insight{% endblock %}
+
+{% block content %}
+<div class="auth-shell">
+  <div class="auth-card">
+    <h1>Create your account</h1>
+    <p class="sub">Free — used only to attribute your predictions and sessions (matches USER / SESSION in the schema).</p>
+
+    <form method="POST" action="{{ url_for('register') }}">
+      <div class="form-field">
+        <label for="name">Full name</label>
+        <input type="text" id="name" name="name" required autofocus>
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="6">
+      </div>
+      <div class="form-field">
+        <label for="role">Role</label>
+        <!-- Free-text-ish role field, matching USER.role in the ERD.
+             A select keeps the data consistent for anyone querying it later. -->
+        <select id="role" name="role">
+          <option value="researcher">Researcher</option>
+          <option value="policymaker">Policymaker</option>
+          <option value="student">Student</option>
+          <option value="admin">Administrator</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Create account</button>
+    </form>
+
+    <div class="auth-switch">
+      Already have an account? <a href="{{ url_for('login') }}">Sign in</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

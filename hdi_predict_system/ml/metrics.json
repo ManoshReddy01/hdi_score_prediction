@@ -1,0 +1,7 @@
+{
+  "algorithm_used": "RandomForestRegressor",
+  "accuracy_score": 1.0,
+  "r2_score": 0.9905,
+  "n_train": 96,
+  "n_test": 24
+}

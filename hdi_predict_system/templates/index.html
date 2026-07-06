@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}HDI Insight — Human Development Index Predictor{% endblock %}
+
+{% block content %}
+
+<!-- HERO: the "thesis" of the page - explains what HDI is and lets a
+     visitor jump straight into signing up. The dial on the right is the
+     page's signature element: the same gauge design used on every
+     real prediction result, previewed here so first-time visitors know
+     exactly what they'll get. -->
+<section class="hero">
+  <div>
+    <span class="eyebrow">Health &middot; Education &middot; Living Standards</span>
+    <h1>Model a country's <span class="accent">human development</span>, not just its GDP.</h1>
+    <p class="lede">
+      HDI Insight turns four indicators — life expectancy, mean and expected years of
+      schooling, and GNI per capita — into a predicted Human Development Index score
+      and tier, using the same composite logic the UNDP itself relies on.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{{ url_for('register') }}">Create free account</a>
+      <a class="btn btn-ghost" href="{{ url_for('login') }}">Sign in</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">{{ stats.countries }}</div>
+        <div class="stat-label">Countries modeled</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">{{ stats.predictions }}</div>
+        <div class="stat-label">Predictions run</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Core indicators</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Static SVG preview of the dial - a lightweight hand-built stand-in
+       for the matplotlib gauge, so the hero loads instantly with no
+       chart-generation cost. -->
+  <div class="hero-dial">
+    <svg viewBox="0 0 200 130">
+      <path d="M 20 110 A 80 80 0 0 1 60 34" fill="none" stroke="#B5535D" stroke-width="16" />
+      <path d="M 60 34 A 80 80 0 0 1 100 20" fill="none" stroke="#D98E3B" stroke-width="16" />
+      <path d="M 100 20 A 80 80 0 0 1 140 34" fill="none" stroke="#6FA694" stroke-width="16" />
+      <path d="M 140 34 A 80 80 0 0 1 180 110" fill="none" stroke="#2F6F63" stroke-width="16" />
+      <line x1="100" y1="110" x2="150" y2="55" stroke="#FAF7F0" stroke-width="4" stroke-linecap="round" />
+      <circle cx="100" cy="110" r="7" fill="#FAF7F0" />
+      <text x="100" y="90" text-anchor="middle" fill="#FAF7F0" font-size="20" font-weight="700" font-family="Fraunces, serif">0.812</text>
+      <text x="100" y="106" text-anchor="middle" fill="#FAF7F0" opacity="0.75" font-size="9" font-family="JetBrains Mono, monospace">VERY HIGH</text>
+    </svg>
+    <div class="caption">predicted_hdi_score &rarr; hdi_category, rendered per prediction</div>
+  </div>
+</section>
+
+<!-- SCENARIOS: lifted directly from the project brief. Shown as three
+     cards, colour-coded by tier, so the abstract indicators above are
+     immediately grounded in concrete examples. -->
+<section class="section">
+  <div class="section-head">
+    <span class="eyebrow">What the model does</span>
+    <h2>Three ways teams use HDI Insight</h2>
+    <p>Every prediction is traceable back to the exact indicators and model version that produced it.</p>
+  </div>
+
+  <div class="scenario-grid">
+    <div class="scenario-card">
+      <span class="tier-badge tier-very-high">Very High HDI</span>
+      <h3>Predicting Very High Human Development</h3>
+      <p>High life expectancy, strong schooling, and high GNI per capita combine into a
+      Very High HDI classification — showing how strength across dimensions compounds.</p>
+    </div>
+    <div class="scenario-card">
+      <span class="tier-badge tier-medium">Medium HDI</span>
+      <h3>Identifying Development Gaps</h3>
+      <p>Mid-range indicators for a developing nation return a Medium HDI score, surfacing
+      exactly where healthcare, education, or income gains would move the needle most.</p>
+    </div>
+    <div class="scenario-card">
+      <span class="tier-badge tier-low">Low HDI</span>
+      <h3>Assessing Development Intervention Needs</h3>
+      <p>Lower life expectancy and limited schooling and income produce a Low HDI score,
+      helping prioritize where policy intervention is most urgent.</p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
